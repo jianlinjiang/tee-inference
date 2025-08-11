@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/base64"
+	"encoding/hex"
 	"fmt"
 	"io"
 	"net"
@@ -23,17 +24,18 @@ func AttestHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	decodedNonce, err := base64.URLEncoding.DecodeString(nonceStr)
+	nonce, err := hex.DecodeString(nonceStr)
 	if err != nil {
-		http.Error(w, "invalid 'nonce' format: not a base64 string", http.StatusBadRequest)
+		http.Error(w, "missing 'nonce' is not hex encoding", http.StatusBadRequest)
 		return
 	}
 
-	if len(decodedNonce) != 64 {
-		http.Error(w, fmt.Sprintf("invalid 'nonce' length: expected 64 bytes, got %d", len(decodedNonce)), http.StatusBadRequest)
+	if len(nonce) != 64 {
+		http.Error(w, fmt.Sprintf("invalid 'nonce' length: expected 64 bytes, got %d", len(nonce)), http.StatusBadRequest)
 		return
 	}
 
+	nonceStr = base64.URLEncoding.EncodeToString(nonce)
 	url := fmt.Sprintf("http://localhost/v1/attest?nonce=%s", nonceStr)
 
 	resp, err := httpClient.Get(url)

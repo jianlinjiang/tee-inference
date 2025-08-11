@@ -48,6 +48,7 @@ COPY --from=build /app/full/llama-server /app
 COPY --from=build2 /app/tee-inference /app
 RUN mkdir /app/models
 COPY ./Qwen3-1.7B-Q4_K_M.gguf /app/models/Qwen3-1.7B-Q4_K_M.gguf
-LABEL tee.launch_policy.all ow_env_override="PORT,MODEL"
+EXPOSE 8085
+LABEL tee.launch_policy.allow_env_override="PORT,MODEL"
 LABEL "tee.launch_policy.allow_cmd_override"="true"
 ENTRYPOINT ["/app/tee-inference"]
