@@ -42,7 +42,7 @@ COPY --from=build /app/full/llama-server /app
 RUN mkdir -p /home/admin/predict && mkdir -p /home/admin/workspace && mkdir -p /home/admin/data
 RUN pip3 install --no-cache-dir --break-system-packages requests
 COPY ./run.sh /home/admin/predict/run.sh
-COPY ./Qwen3-1.7B-Q2_K.gguf /app/models/Qwen3-1.7B-Q2_K.gguf
+COPY ./Qwen3-1.7B-Q4_K_M.gguf /app/models/Qwen3-1.7B-Q4_K_M.gguf
 RUN rm -rf /app/libggml-cpu-sapphirerapids.so
 COPY ./predict_demo.py /home/admin/predict/predict_demo.py
 ENTRYPOINT ["bash"]

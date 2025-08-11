@@ -11,7 +11,7 @@ import subprocess
 log_file_path = '/home/admin/workspace/job/logs/user.log'  # predict日志路径
 
 OLLAMA_API_URL = "http://localhost:80/v1/chat/completions"
-MODEL_NAME = "Qwen3-1.7B-Q2_K.gguf"
+MODEL_NAME = "Qwen3-1.7B-Q4_K_M.gguf"
 
 def parse_arguments():
     """解析命令行参数"""
