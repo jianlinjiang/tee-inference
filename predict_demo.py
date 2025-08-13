@@ -11,7 +11,7 @@ import subprocess
 log_file_path = '/home/admin/workspace/job/logs/user.log'  # predict日志路径
 
 OLLAMA_API_URL = "http://localhost:80/v1/chat/completions"
-MODEL_NAME = "Qwen3-1.7B-Q4_K_M.gguf"
+MODEL_NAME = "Qwen3-1.7B-Q2_K.gguf"
 
 def parse_arguments():
     """解析命令行参数"""
@@ -26,8 +26,8 @@ def start_ollama():
     # 启动 Llama Cpp 服务（后台运行）
     model_path = "/app/models/" + MODEL_NAME
     process = subprocess.Popen(
-        ["/app/llama-server", "-c", "4096", "-b", "4096", "-t", "6",
-		"-m", model_path, "--host", "0.0.0.0", "--port", "80"],
+         ["/app/llama-server", "-c", "512", "-b", "4096", "-t", "6",
+        "-m", model_path, "--host", "0.0.0.0", "-n", "4096", "--prio", "2","--cpu-strict","1", "--port", "80", "--jinja", "--chat_template_kwargs", "{\"enable_thinking\":false}"],
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT
         #text=True
